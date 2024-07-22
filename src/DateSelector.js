@@ -8,7 +8,7 @@ const DateSelector = ({ selectedDate, setSelectedDate }) => {
       <DatePicker
         selected={selectedDate}
         onChange={(date) => setSelectedDate(date)}
-        dateFormat="dd-MM-yyyy"
+        dateFormat="yyyy-MM-dd"
       />
     </div>
   );

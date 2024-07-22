@@ -3,18 +3,26 @@ import React, { useState, useEffect } from 'react';
 const CurrencyConverter = ({ currencies, rates }) => {
   const [amount, setAmount] = useState(1);
   const [fromCurrency, setFromCurrency] = useState('USD');
-  const [toCurrency, setToCurrency] = useState('INR');
+  const [toCurrency, setToCurrency] = useState('EUR');
   const [convertedAmount, setConvertedAmount] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (fromCurrency && toCurrency && rates[fromCurrency] && rates[toCurrency]) {
-      const rate = rates[toCurrency] / rates[fromCurrency];
-      setConvertedAmount(amount * rate);
+    if (fromCurrency && toCurrency) {
+      if (rates[fromCurrency] && rates[toCurrency]) {
+        const rate = rates[toCurrency] / rates[fromCurrency];
+        setConvertedAmount(amount * rate);
+        setError(null);
+      } else {
+        setError(`Exchange rate data for ${fromCurrency} or ${toCurrency} is not available.`);
+        setConvertedAmount(0);
+      }
     }
   }, [amount, fromCurrency, toCurrency, rates]);
 
   return (
     <div>
+      {error && <div style={{ color: 'red' }}>{error}</div>}
       <div>
         <input
           type="number"
