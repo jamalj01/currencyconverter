@@ -13,16 +13,7 @@ const App = () => {
 
   const apiKey = process.env.REACT_APP_EXCHANGERATE_API_KEY;
 
-  useEffect(() => {
-    fetchCurrencies();
-  }, []);
-
-  useEffect(() => {
-    const debounceFetch = setTimeout(fetchRates, 300);
-    return () => clearTimeout(debounceFetch);
-  }, [selectedDate]);
-
-  const fetchCurrencies = async () => {
+  const fetchCurrencies = useCallback(async () => {
     try {
       const response = await axios.get(
         `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`
@@ -35,7 +26,7 @@ const App = () => {
     } catch (error) {
       console.error("Error fetching currencies:", error);
     }
-  };
+  }, [apiKey]);
 
   const fetchRates = useCallback(async () => {
     setLoading(true);
@@ -62,6 +53,15 @@ const App = () => {
       setLoading(false);
     }
   }, [selectedDate, apiKey]);
+
+  useEffect(() => {
+    fetchCurrencies();
+  }, [fetchCurrencies]);
+
+  useEffect(() => {
+    const debounceFetch = setTimeout(fetchRates, 300);
+    return () => clearTimeout(debounceFetch);
+  }, [fetchRates]);
 
   return (
     <div className="App">
