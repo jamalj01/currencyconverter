@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const CurrencyConverter = ({ currencies, rates }) => {
   const [amount, setAmount] = useState(1);
-  const [fromCurrency, setFromCurrency] = useState('USD');
-  const [toCurrency, setToCurrency] = useState('EUR');
+  const [fromCurrency, setFromCurrency] = useState("USD");
+  const [toCurrency, setToCurrency] = useState("INR");
   const [convertedAmount, setConvertedAmount] = useState(0);
   const [error, setError] = useState(null);
 
@@ -14,7 +14,9 @@ const CurrencyConverter = ({ currencies, rates }) => {
         setConvertedAmount(amount * rate);
         setError(null);
       } else {
-        setError(`Exchange rate data for ${fromCurrency} or ${toCurrency} is not available.`);
+        setError(
+          `Exchange rate data for ${fromCurrency} or ${toCurrency} is not available.`
+        );
         setConvertedAmount(0);
       }
     }
@@ -22,10 +24,11 @@ const CurrencyConverter = ({ currencies, rates }) => {
 
   return (
     <div>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {error && <div style={{ color: "red" }}>{error}</div>}
       <div>
         <input
           type="number"
+          min="0"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
