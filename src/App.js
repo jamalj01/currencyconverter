@@ -32,13 +32,12 @@ const App = () => {
     setLoading(true);
     setError(null);
     try {
-      const year = selectedDate.getFullYear();
-      const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
-      const day = String(selectedDate.getDate()).padStart(2, "0");
-
-      const response = await axios.get(
-        `https://v6.exchangerate-api.com/v6/${apiKey}/history/USD/${year}/${month}/${day}`
-      );
+      const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`;
+      console.log("Fetching rates from URL:", url);
+  
+      const response = await axios.get(url);
+      console.log("API Response:", response);
+  
       if (response.data && response.data.conversion_rates) {
         setRates(response.data.conversion_rates);
       } else {
@@ -46,13 +45,15 @@ const App = () => {
         setRates({});
       }
     } catch (error) {
-      console.error("Error fetching rates:", error);
+      console.error("Error fetching rates:", error.response ? error.response.data : error.message);
       setError("Error fetching rates. Please try again.");
       setRates({});
     } finally {
       setLoading(false);
     }
-  }, [selectedDate, apiKey]);
+  }, [apiKey]);
+  
+  
 
   useEffect(() => {
     fetchCurrencies();

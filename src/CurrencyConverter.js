@@ -30,7 +30,7 @@ const CurrencyConverter = ({ currencies, rates }) => {
           type="number"
           min="0"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => setAmount(Number(e.target.value))}
         />
         <select
           value={fromCurrency}

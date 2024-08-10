@@ -9,6 +9,7 @@ const DateSelector = ({ selectedDate, setSelectedDate }) => {
         selected={selectedDate}
         onChange={(date) => setSelectedDate(date)}
         dateFormat="yyyy-MM-dd"
+        disabled
       />
     </div>
   );
